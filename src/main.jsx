@@ -3,6 +3,7 @@ import {createRoot} from 'react-dom/client';
 import {LayoutDashboard,Package,ShoppingBag,Calculator,Store,Plus,Trash2,ExternalLink,ArrowUpRight,Download} from 'lucide-react';
 import './style.css';
 const KEY='fl1up-demo-v1'; // Preserve v0.1 local inventory
+const today=()=>new Date().toISOString().slice(0,10);
 const seed=[{id:'a1',name:'Pokémon Scarlet',category:'Games',cost:24,price:42,fees:4,shipping:0,status:'listed',date:'2026-11-01',image:''},{id:'a2',name:'PS4 Slim Console',category:'Consoles',cost:65,price:110,fees:10,shipping:5,status:'sold',date:'2026-11-03',image:''},{id:'a3',name:'Mario Kart 8 Deluxe',category:'Games',cost:22,price:39,fees:3,shipping:0,status:'in-stock',date:'2026-11-05',image:''}];
 const blank={name:'',category:'Games',cost:'',price:'',fees:'0',shipping:'0',status:'in-stock',image:'',marketplace:'Not listed',quantity:1,purchasedAt:today(),actualPrice:'',soldAt:''};
 const money=n=>new Intl.NumberFormat('en-IE',{style:'currency',currency:'EUR'}).format(Number(n)||0);
@@ -10,7 +11,6 @@ const num=n=>Number(n)||0;
 const salePrice=i=>i.status==='sold'&&i.actualPrice!==undefined&&i.actualPrice!==''?num(i.actualPrice):num(i.price);
 const profit=i=>salePrice(i)-num(i.cost)-num(i.fees)-num(i.shipping);
 const marketplaces=['Not listed','eBay','Vinted','Adverts.ie','Facebook Marketplace','Depop','Etsy','Other'];
-const today=()=>new Date().toISOString().slice(0,10);
 function App(){
  const [items,setItems]=useState(()=>{try{const saved=localStorage.getItem(KEY);return saved?JSON.parse(saved):seed}catch{return seed}});
  const [shop,setShop]=useState(()=>{try{return JSON.parse(localStorage.getItem(KEY+'-shop'))||{name:'Kogame Popculture',description:'Pre-loved games, consoles and collectibles, carefully selected.',contact:'',slug:'kogame-popculture'}}catch{return {name:'Kogame Popculture',description:'Pre-loved games, consoles and collectibles, carefully selected.',contact:'',slug:'kogame-popculture'}}});
